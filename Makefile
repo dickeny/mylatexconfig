@@ -18,6 +18,7 @@ pdf:
 	$(TEX) -no-pdf $(target).tex
 	$(TEX) -no-pdf $(target).tex && rm $(gabbage)
 	$(DVI) $(target).xdv && rm $(target).xdv
+	make clean
 
 $(target).tar.gz : $(files)
 	tar -czvf $(target).tar.gz $(files)
