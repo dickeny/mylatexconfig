@@ -1,0 +1,72 @@
+\ProvidesPackage{loving}
+
+\usepackage{amsmath}
+\usepackage{listings, xcolor, color}
+\usepackage[colorlinks, linkcolor=blue]{hyperref}
+\usepackage{ifthen}
+
+
+\lstset{
+%    numbers=left, 
+%    numberstyle=\small, 
+    keywordstyle=\color{blue!70}, 
+    commentstyle=\color{red!50!green!50!blue!50}, 
+    rulesepcolor=\color{red!20!green!20!blue!20},
+%    backgroundcolor=\color{gray},
+    frame=shadowbox, 
+}
+
+% 插入文字示意图
+\newcommand\tcode[3]{
+    \lstinputlisting[firstline=#2, lastline=#3]{#1} 
+}
+
+% 插入C 语言代码
+\newcommand\ccode[3]{
+    \begin{small}
+    \lstinputlisting[language=C, firstline=#2, lastline=#3]{#1} 
+    \end{small}
+}
+
+% 插入CPP 语言代码
+\newcommand\cppcode[3]{
+    \begin{small} %
+    \lstinputlisting[language=C++, firstline=#2, lastline=#3]{#1} %
+    \end{small} %
+}
+
+% 插入数学算法
+\newcommand\mcode[3]{
+    \lstinputlisting[language=Mathematica, firstline=#2, lastline=#3]{#1} 
+}
+
+
+%===============================================
+%           提供简化版的图片插入命令
+%===============================================
+\usepackage{graphicx}
+\newlength{\originwidth}
+\newlength{\picturewidth}
+\newlength{\maxpicturewidth}
+\graphicspath{{pictures/}}
+
+% 设置图片与文本行长度之间的比例，默认是0.95 * textwidth
+\newcommand{\setpicturescale}[1]{
+  \setlength{\maxpicturewidth}{#1\textwidth}%
+}
+\AtBeginDocument{\setpicturescale{.95}}
+
+% 插入图形: \insertpicture{file.jpeg}{captions}{label}
+\newcommand{\insertpicture}[3]{ 
+    \settowidth{\originwidth}{\includegraphics{#1}}
+    \setlength{\picturewidth}{\minof{\maxpicturewidth}{\originwidth}}
+    \begin{figure}[ht]\centering %
+    \includegraphics[width=\picturewidth]{#1}  %
+    \caption{#2}%
+    \label{#3} %
+    \end{figure} %
+}
+
+% 强迫每个section前立即处理被搁置的浮动体
+\usepackage[section]{placeins}
+
