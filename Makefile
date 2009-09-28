@@ -1,6 +1,6 @@
 # set file to the name of the main file without the .tex
 target	= report
-gabbage	= $(target).out $(target).log $(target).aux
+gabbage	= *~ $(target).{out,log,aux,lot,toc}
 files	= $(shell ls *.*)
 tmp		= $(target).test
 
@@ -16,9 +16,9 @@ all: tarball show
 
 pdf:	
 	$(TEX) -no-pdf $(target).tex
-	$(TEX) -no-pdf $(target).tex && rm $(gabbage)
+	$(TEX) -no-pdf $(target).tex
+	-make clean
 	$(DVI) $(target).xdv && rm $(target).xdv
-	make clean
 
 $(target).tar.gz : $(files)
 	tar -czvf $(target).tar.gz $(files)
@@ -29,14 +29,13 @@ show: pdf
 	$(VIEWER) $(target).pdf &
 
 clean:
-	-@rm *~
-	-@rm *.aux *.toc *.log *.out
-		
+	-rm -f $(gabbage)
+
 test:
 	sed 's|^\(.*usepackage.*\)|\1\n\\usepackage{syntonly}\n\\syntaxonly|' \
 				$(target).tex > $(tmp).tex
 	$(TEX) -no-pdf $(tmp).tex || echo " :: TeX compile failed!!" ;
 	@echo " :: Syntax test finish."
-	-@rm $(tmp).*
+	-@rm -f $(tmp).*
 
 
