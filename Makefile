@@ -1,5 +1,5 @@
 # set file to the name of the main file without the .tex
-target	= report
+target	= example
 gabbage	= *~ $(target).{out,log,aux,lot,toc}
 files	= $(shell ls *.*)
 tmp		= $(target).test
